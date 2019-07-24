@@ -5,18 +5,49 @@ win = pygame.display.set_mode((500,500))
 # Название окна
 pygame.display.set_caption('Первая игра')
 
+walkRight = [pygame.image.load('images/pygame_right_1.png'), pygame.image.load('images/pygame_right_2.png'), pygame.image.load('images/pygame_right_3.png'), pygame.image.load('images/pygame_right_4.png'), pygame.image.load('images/pygame_right_5.png'), pygame.image.load('images/pygame_right_6.png')]
+
+walkLeft = [pygame.image.load('images/pygame_left_1.png'), pygame.image.load('images/pygame_left_2.png'), pygame.image.load('images/pygame_left_3.png'), pygame.image.load('images/pygame_left_4.png'), pygame.image.load('images/pygame_left_5.png'), pygame.image.load('images/pygame_left_6.png')]
+
+bg = pygame.image.load('images/pygame_bg.jpg')
+playerStand = pygame.image.load('images/pygame_idle.png')
+
+clock = pygame.time.Clock()
 x = 50
 y = 425
-width = 40 # ширина
-height = 60 # высота
+width = 60 # ширина
+height = 71 # высота
 speed = 5
 
 isJump = False
 jumpCount = 10
+
+left = False
+right = False
+animCount = 0
+
+def drawWindow():
+    global animCount
+    win.blit(bg, (0, 0))
+
+    if animCount +1 >=30:
+        animCount = 0
+
+    if left:
+        win.blit(walkLeft[animCount // 5], (x, y))
+        animCount += 1
+    elif right:
+        win.blit(walkRight[animCount // 5], (x, y))
+        animCount += 1
+    else:
+        win.blit(playerStand, (x, y))
+
+    pygame.display.update()
+
 # основной игровой цикл
 run = True
 while run:
-    pygame.time.delay(100)
+    clock.tick(30)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -25,8 +56,16 @@ while run:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT] and x > 5:
         x -= speed
-    if keys[pygame.K_RIGHT] and x < 500 - width - 5:
+        left = True
+        right = False
+    elif keys[pygame.K_RIGHT] and x < 500 - width - 5:
         x += speed
+        left = False
+        right = True
+    else:
+        left = False
+        right = False
+        animCount = 0
     if not(isJump):
         if keys[pygame.K_SPACE]:
             isJump = True
@@ -41,11 +80,6 @@ while run:
             isJump = False
             jumpCount = 10
 
-# обновление окна
-    win.fill((0,0,0))
-
-# создаем игрока
-    pygame.draw.rect(win, (0,0,255),(x, y, width, height))
-    pygame.display.update()
+    drawWindow()
 pygame.quit()
 
