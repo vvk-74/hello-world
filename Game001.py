@@ -2,10 +2,13 @@ import pygame
 pygame.init()
 
 display_width = 800
-display_heidht = 600
+display_height = 600
 
-display = pygame.display.set_mode((display_width, display_heidht))
+display = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption('Дино')
+
+icon = pygame.image.load("images/icon.png")
+pygame.display.set_icon(icon)
 
 def run_game():
     game = True
@@ -17,6 +20,7 @@ def run_game():
                 quit()
 
         display.fill((255, 255, 255))
+        pygame.display.update()
 
 run_game()
 
