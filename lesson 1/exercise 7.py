@@ -1,7 +1,7 @@
 import turtle
 import math
 
-z = 20
+z = 10
 a = 3
 g = 120
 
@@ -15,16 +15,20 @@ def radius(a, n):
 
 for i in range(10):
     R = radius(z, a)
-    x = R * math.cos(g)
-    y = R * math.sin(g)
+    print(R)
+    x = R
+    y = 0
     turtle.penup()
     turtle.goto(x, y)
     turtle.pendown()
+    turtle.right(g/2)
     for j in range(a):
-        turtle.forward(z)
+        g = (180 * (a-2))/a
         turtle.left(g)
+        turtle.forward(z)
+
     a += 1
     z += 10
-    g = 360 / a
+
 
 
